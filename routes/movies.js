@@ -1,6 +1,7 @@
 const express = require("express");
 const MovieDetailsModel = require("../models/MovieDetails");
 const Movie = require("../models/movie");
+const Character = require("../models/Character");
 const router = express.Router();
 const filter =
   "id title release_date producer director synopsis imdb_rating metascore rt_rating genre poster banner trailer";
@@ -27,15 +28,35 @@ async function getMovie(req, res, next) {
       return res.status(404).json({ message: "Cannot find movie" });
     }
   } catch (err) {
-    switch (err.name) {
-      case "CastError":
-        return res.status(400).json({ message: "Invalid movie ID" });
-      default:
-        return res.status(500).json({ message: err.message });
-    }
+    return res.status(500).json({ message: err.message });
   }
-  res.movie = movie;
+  let characters = movie[0].characters.split(";");
+  for (let i = 0; i < characters.length; i++) {
+    const character = await getCharacter(characters[i]);
+    const char = {
+      char_id: character.char_id,
+      name: character.name,
+      age: character.age,
+      specie: character.specie,
+      role: character.role,
+      image: character.image,
+    };
+    characters[i] = char;
+  }
+  delete movie[0]._doc._id;
+  res.movie = { ...movie[0]._doc, characters: characters };
   next();
 }
 
+async function getCharacter(id) {
+  try {
+    let character = await Character.findOne({ char_id: id });
+    if (!character) {
+      return { message: "Cannot find character" };
+    }
+    return character;
+  } catch (err) {
+    return { message: err.message };
+  }
+}
 module.exports = router;
