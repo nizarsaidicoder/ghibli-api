@@ -2,9 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
-const movieRouter = require("./routes/movie");
-const Movie = require("./models/movie");
-
+const movieRouter = require("./routes/movies");
 const DBString = process.env.DATABASE_URL;
 mongoose.connect(DBString);
 

@@ -1,16 +1,13 @@
 const express = require("express");
-const Movie = require("../models/movie");
+const Character = require("../models/Character");
 const router = express.Router();
 
-// Get all users
+// Get all characters
 router.get("/", async (req, res) => {
   try {
-    const movies = await Movie.find();
-    // res.status(200).json(movies);
-    res.json(movies);
+    const characters = await Character.find();
+    res.json(characters);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
-
-module.exports = router;

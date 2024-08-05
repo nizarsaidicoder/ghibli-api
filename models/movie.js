@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const movieSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -21,10 +20,6 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  description: {
-    type: String,
-    required: true,
-  },
   synopsis: {
     type: String,
     required: true,
@@ -37,29 +32,5 @@ const movieSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  rt_rating: {
-    type: Number,
-    required: true,
-  },
-  genre: {
-    type: String,
-    required: true,
-  },
-  poster: {
-    type: String,
-    required: true,
-  },
-  banner: {
-    type: String,
-    required: true,
-  },
-  trailer: {
-    type: String,
-    required: true,
-  },
-  characters: {
-    type: String,
-    required: true,
-  },
 });
-module.exports = mongoose.model("Movie", movieSchema);
+module.exports = mongoose.model("Movie", movieSchema, "movies");
