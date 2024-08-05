@@ -8,7 +8,7 @@ const filter =
 // Get all movies
 router.get("/", async (req, res) => {
   try {
-    const movies = await Movie.find().select(filter);
+    const movies = await Movie.find({}, { _id: 0 }).select(filter);
     res.status(200).json(movies);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -33,15 +33,15 @@ async function getMovie(req, res, next) {
   let characters = movie[0].characters.split(";");
   for (let i = 0; i < characters.length; i++) {
     const character = await getCharacter(characters[i]);
-    const char = {
-      char_id: character.char_id,
-      name: character.name,
-      age: character.age,
-      specie: character.specie,
-      role: character.role,
-      image: character.image,
-    };
-    characters[i] = char;
+    // const char = {
+    //   char_id: character.char_id,
+    //   name: character.name,
+    //   age: character.age,
+    //   specie: character.specie,
+    //   role: character.role,
+    //   image: character.image,
+    // };
+    characters[i] = character;
   }
   delete movie[0]._doc._id;
   res.movie = { ...movie[0]._doc, characters: characters };
@@ -50,7 +50,10 @@ async function getMovie(req, res, next) {
 
 async function getCharacter(id) {
   try {
-    let character = await Character.findOne({ char_id: id });
+    let character = await Character.findOne(
+      { char_id: id },
+      { _id: 0, movie: 0 }
+    );
     if (!character) {
       return { message: "Cannot find character" };
     }
