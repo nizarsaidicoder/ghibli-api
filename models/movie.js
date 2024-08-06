@@ -36,5 +36,9 @@ const movieSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  genre: {
+    type: String,
+    required: true,
+  },
 });
 module.exports = mongoose.model("Movie", movieSchema, "movies");
