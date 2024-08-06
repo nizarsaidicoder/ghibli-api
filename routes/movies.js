@@ -33,14 +33,6 @@ async function getMovie(req, res, next) {
   let characters = movie[0].characters.split(";");
   for (let i = 0; i < characters.length; i++) {
     const character = await getCharacter(characters[i]);
-    // const char = {
-    //   char_id: character.char_id,
-    //   name: character.name,
-    //   age: character.age,
-    //   specie: character.specie,
-    //   role: character.role,
-    //   image: character.image,
-    // };
     characters[i] = character;
   }
   delete movie[0]._doc._id;
