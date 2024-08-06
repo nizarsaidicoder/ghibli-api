@@ -15,6 +15,9 @@ router.get("/", async (req, res) => {
   const directorQuery = req.query.director;
   const producerQuery = req.query.producer;
   const dateQuery = req.query.date;
+  const sortBy = req.query.sortBy || "title"; // Default sort by title
+  const order = req.query.order === "desc" ? -1 : 1; // Default order is ascending
+
   const queryFilter = {};
   if (titleQuery) {
     if (titleQuery.length < 3) {
@@ -42,7 +45,7 @@ router.get("/", async (req, res) => {
       _id: 0,
       characters: 0,
       description: 0,
-    });
+    }).sort({ [sortBy]: order });
     res.status(200).json(movies);
   } catch (err) {
     res.status(500).json({ message: err.message });
