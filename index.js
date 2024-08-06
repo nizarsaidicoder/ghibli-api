@@ -5,7 +5,7 @@ const app = express();
 const movieRouter = require("./routes/movies");
 const characterRouter = require("./routes/characters");
 
-const DBString = process.env.DATABASE_URL;
+const DBString = process.env.MONGODB_URI;
 mongoose.connect(DBString);
 const database = mongoose.connection;
 database.on("error", (error) => console.error(error));
