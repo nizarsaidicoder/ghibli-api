@@ -2,8 +2,6 @@ const express = require("express");
 const router = express.Router();
 const Character = require("../models/Character");
 const Movie = require("../models/movie");
-
-const filter = "char_id name image movie";
 // Get one character
 router.get("/:id", getCharacter, (req, res) => {
   res.json(res.character);
@@ -15,6 +13,8 @@ router.get("/", async (req, res) => {
     const nameQuery = req.query.name;
     const movieQuery = req.query.movie;
     const idQuery = req.query.id;
+    const sortBy = req.query.sortBy || "name"; // Default sort by name
+    const order = req.query.order === "desc" ? -1 : 1; // Default order is ascending
     const queryFilter = {};
     if (nameQuery) {
       if (nameQuery.length < 3) {
@@ -30,7 +30,9 @@ router.get("/", async (req, res) => {
     if (idQuery) {
       queryFilter.char_id = idQuery;
     }
-    const characters = await Character.find(queryFilter).select(filter);
+    const characters = await Character.find(queryFilter)
+      .select({ _id: 0, gender: 0, role: 0, age: 0, specie: 0 })
+      .sort({ [sortBy]: order });
     res.json(characters);
   } catch (err) {
     res.status(500).json({ message: err.message });
