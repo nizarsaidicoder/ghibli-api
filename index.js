@@ -12,9 +12,9 @@ database.on("error", (error) => console.error(error));
 database.once("connected", () => console.log("Connected to database"));
 
 app.use(express.json());
-app.use("/movies", movieRouter);
-app.use("/characters", characterRouter);
-app.get("/", (req, res) => {
+app.use("/api/movies", movieRouter);
+app.use("/api/characters", characterRouter);
+app.get("/api", (req, res) => {
   res.send("Welcome to the movie API");
 });
 
