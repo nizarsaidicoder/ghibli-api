@@ -17,9 +17,9 @@ app.use("/api/characters", characterRouter);
 app.get("/api", (req, res) => {
   res.send("Welcome to the movie API");
 });
+
 app.get("/", (req, res) => {
-  //redirect to the api
-  res.redirect("/api");
+  res.send("Welcome to the movie API");
 });
 
 // Start the server
