@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+// scheme for movie details
 
 const movieDetailsSchema = new mongoose.Schema({
   id: {
