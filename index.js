@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 const app = express();
 const movieRouter = require("./routes/movies");
 const characterRouter = require("./routes/characters");
@@ -10,7 +11,7 @@ mongoose.connect(DBString);
 const database = mongoose.connection;
 database.on("error", (error) => console.error(error));
 database.once("connected", () => console.log("Connected to database"));
-
+app.use(cors());
 app.use(express.json());
 app.use("/api/movies", movieRouter);
 app.use("/api/characters", characterRouter);
